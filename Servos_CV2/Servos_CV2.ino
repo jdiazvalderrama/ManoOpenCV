@@ -40,8 +40,6 @@ int medio = 2;
 int anular = 3;
 int menique = 4;
 
-
-
 void setup() {
   servo.begin();
   Serial.begin(9600);
@@ -55,32 +53,14 @@ void setup() {
 
 }
 
-
 void loop() {
   recibirInfo();
-  //Serial.println(Serial.read());
-  
-  if ((digitalRead(botVerde)==HIGH)or(valsRec[0] == 0)){Serial.println("Moviendo pulgar");setServo(0,180);}else{setServo(0,0);}
-  if ((digitalRead(botNegro)==HIGH) or (valsRec[1] == 0)){Serial.println("Moviendo indice");setServo(1,180);}else{setServo(1,0);}
-  if ((digitalRead(botBlanco)==HIGH) or (valsRec[2] == 0)){Serial.println("Moviendo medio");setServo(2,180);}else{setServo(2,0);}
-  if ((digitalRead(botRojo)==HIGH) or (valsRec[3] == 0)){Serial.println("Moviendo anular");setServo(3,180);}else{setServo(3,0);}
-  if ((digitalRead(botAzul)==HIGH) or (valsRec[4] == 0)){Serial.println("Moviendo menique");setServo(4,180);}else{setServo(4,0);}
-  
-  //Serial.println(valsRec[5]);
-  /*
-  if (valsRec[0] == 1){setServo(0,180);Serial.println("Moviendo pulgar");}else{setServo(0,0);}
-  if (valsRec[1] == 1){setServo(1,180);Serial.println("Moviendo indice");}else{setServo(1,0);}
-  if (valsRec[2] == 1){setServo(2,180);Serial.println("Moviendo medio");}else{setServo(2,0);}
-  if (valsRec[3] == 1){setServo(3,180);Serial.println("Moviendo anular");}else{setServo(3,0);}
-  if (valsRec[4] == 1){setServo(4,180);Serial.println("Moviendo menique");}else{setServo(4,0);}
-  */
+  if ((digitalRead(botVerde)==HIGH)or(valsRec[0] == 0)){Serial.println("Moviendo pulgar");setServo(pulgar,180);}else{setServo(pulgar,0);}
+  if ((digitalRead(botNegro)==HIGH) or (valsRec[1] == 0)){Serial.println("Moviendo indice");setServo(indice,180);}else{setServo(indice,0);}
+  if ((digitalRead(botBlanco)==HIGH) or (valsRec[2] == 0)){Serial.println("Moviendo medio");setServo(medio,180);}else{setServo(medio,0);}
+  if ((digitalRead(botRojo)==HIGH) or (valsRec[3] == 0)){Serial.println("Moviendo anular");setServo(anular,180);}else{setServo(anular,0);}
+  if ((digitalRead(botAzul)==HIGH) or (valsRec[4] == 0)){Serial.println("Moviendo menique");setServo(menique,180);}else{setServo(menique,0);}
 }
-
-
-
-
-
-
 
 void recibirInfo(){
   while(Serial.available()){
@@ -93,7 +73,7 @@ void recibirInfo(){
         recibirString = String(recibirString + c);
         contador++;
       }
-      
+
       if (contador >= largoString){
         for (int i=0; i<numOfValsRec; i++){
           int num = (i*digitsPerValRec) + 1;
@@ -103,13 +83,9 @@ void recibirInfo(){
         contador = 0;
         iniciarContador = false;
       }
-      
     }
-    
   }
-  
 }
-
 
 void setServo(uint8_t num, int angulo){
   int duty;

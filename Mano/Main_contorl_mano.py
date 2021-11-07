@@ -1,26 +1,31 @@
-import cv2
 from cvzone.HandTrackingModule import *
 from cvzone.SerialModule import SerialObject
-import serial
 
-cap = cv2.VideoCapture(1)
-detector = HandDetector(detectionCon=0.8, maxHands=1)
-mySerial = SerialObject("COM3", 9600, 1)
+# Generamos la captura de video con CV2
+cap = cv2.VideoCapture(2)  # El orden de las webcam va del 0 a n (siendo n el numero de camaras que tenga)
+detector = HandDetector(detectionCon=0.8, maxHands=1)  # Funcion para deteccion de manos de CvZone
+mySerial = SerialObject("COM3", 9600, 1)  # Iniciamos comunicacion serial entre mi arduino y el programa
 
+# Comenzamo la logica del programa en un bucle infinito
 while True:
-    # Get image frame
+    # Obtenemos la imagen para trabajar con ella
     success, img = cap.read()
     hands, img = detector.findHands(img)
     if hands:
-        # Hand 1
-        hand1 = hands[0]
-        lmList1 = hand1["lmList"]  # List of 21 Landmark points
-        bbox1 = hand1["bbox"]  # Bounding box info x,y,w,h
-        centerPoint1 = hand1['center']  # center of the hand cx,cy
-        handType1 = hand1["type"]  # Handtype Left or Right
+        hand = hands[0]
+        lmList = hand["lmList"]  # Lista de 21 landmarks
+        bbox = hand["bbox"]  # Bounding box info x,y,w,h
+        centerPoint1 = hand['center']  # center of the hand cx,cy
+        handType1 = hand["type"]  # Handtype Left or Right
 
-        fingers1 = detector.fingersUp(hand1)
-        mySerial.sendData(fingers1)
+        fingers = detector.fingersUp(hand)
+        mySerial.sendData(fingers)
+
+        totalFingers = fingers.count(1)
+        cv2.putText(img, "Dedo UP %s" %str(totalFingers), (bbox[0] + 100, bbox[1] - 30),
+                        cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
+
+
