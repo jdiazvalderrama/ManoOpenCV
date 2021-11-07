@@ -3,10 +3,9 @@ from cvzone.SerialModule import SerialObject
 
 # Generamos la captura de video con CV2
 cap = cv2.VideoCapture(2)  # El orden de las webcam va del 0 a n (siendo n el numero de camaras que tenga)
-detector = HandDetector(detectionCon=0.8, maxHands=1)  # Funcion para deteccion de manos de CvZone
+detector = HandDetector(detectionCon=0.8, maxHands=2)  # Funcion para deteccion de manos de CvZone
 mySerial = SerialObject("COM3", 9600, 1)  # Iniciamos comunicacion serial entre mi arduino y el programa
 
-# Comenzamo la logica del programa en un bucle infinito
 while True:
     # Obtenemos la imagen para trabajar con ella
     success, img = cap.read()
@@ -15,7 +14,6 @@ while True:
         hand = hands[0]
         lmList = hand["lmList"]  # Lista de 21 landmarks
         bbox = hand["bbox"]  # Bounding box info x,y,w,h
-        centerPoint1 = hand['center']  # center of the hand cx,cy
         handType1 = hand["type"]  # Handtype Left or Right
 
         fingers = detector.fingersUp(hand)

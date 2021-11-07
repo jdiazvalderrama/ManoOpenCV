@@ -6,7 +6,6 @@ javier.diazv@alumnos.uv.cl
 
 Estaba aburrido, si le encuentran alguna funcion a la mano, de pana jasjjda yo no le veo ninguna :D
  */
-
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 Adafruit_PWMServoDriver servo = Adafruit_PWMServoDriver(0x40);
